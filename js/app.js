@@ -111,33 +111,41 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
 /* ======================== CLICK SOUND ======================== */
 
-var clickSound = null;
+var audioCtx = null;
+var clickBuffer = null;
 
-function preloadClick(basePath) {
-  clickSound = new Audio(basePath + 'assets/click.wav');
-  clickSound.volume = 0.15;
-  clickSound.load();
-}
-
-function playClick() {
-  if (!clickSound) return;
-  clickSound.currentTime = 0;
-  clickSound.play().catch(function () {});
+function warmUpAudio() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var base = getBasePath();
+  fetch(base + "assets/click.wav")
+    .then(function (r) { return r.arrayBuffer(); })
+    .then(function (buf) { return audioCtx.decodeAudioData(buf); })
+    .then(function (decoded) { clickBuffer = decoded; });
 }
 
 function getBasePath() {
-  var isSubpage = window.location.pathname.indexOf('/projects/') !== -1;
-  return isSubpage ? '../' : '';
+  var inSub = window.location.pathname.indexOf("/projects/") !== -1;
+  return inSub ? "../" : "";
+}
+
+function playClick() {
+  if (!audioCtx || !clickBuffer) return;
+  var source = audioCtx.createBufferSource();
+  source.buffer = clickBuffer;
+  var gain = audioCtx.createGain();
+  gain.gain.value = 0.15;
+  source.connect(gain);
+  gain.connect(audioCtx.destination);
+  source.start();
 }
 
 function initClickSound() {
-  preloadClick(getBasePath());
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('a, button')) {
-      playClick();
-    }
+  document.addEventListener("pointerdown", warmUpAudio, { once: true });
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("a, button")) playClick();
   });
 }
 
