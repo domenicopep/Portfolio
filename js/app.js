@@ -110,46 +110,32 @@ document.addEventListener('DOMContentLoaded', function () {
   initDelayedNavClick();
 });
 
+
 /* ======================== CLICK SOUND ======================== */
 
-var audioCtx = null;
+var clickSound = null;
 
-function getAudioContext() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === "suspended") {
-    audioCtx.resume();
-  }
-  return audioCtx;
+function preloadClick(basePath) {
+  clickSound = new Audio(basePath + 'assets/click.wav');
+  clickSound.volume = 0.15;
+  clickSound.load();
 }
 
 function playClick() {
-  var ctx = getAudioContext();
-  var buffer = ctx.createBuffer(1, ctx.sampleRate * 0.02, ctx.sampleRate);
-  var data = buffer.getChannelData(0);
-  fillClickBuffer(data);
-  var source = ctx.createBufferSource();
-  source.buffer = buffer;
-  var gain = ctx.createGain();
-  gain.gain.value = 0.08;
-  source.connect(gain);
-  gain.connect(ctx.destination);
-  source.start();
+  if (!clickSound) return;
+  clickSound.currentTime = 0;
+  clickSound.play().catch(function () {});
 }
 
-function fillClickBuffer(data) {
-  for (var i = 0; i < data.length; i++) {
-    var t = i / data.length;
-    var envelope = Math.exp(-t * 40);
-    data[i] = (Math.random() * 2 - 1) * envelope;
-  }
+function getBasePath() {
+  var isSubpage = window.location.pathname.indexOf('/projects/') !== -1;
+  return isSubpage ? '../' : '';
 }
 
 function initClickSound() {
-  var targets = 'a, button, .project-card, nav a, .contact-link';
+  preloadClick(getBasePath());
   document.addEventListener('click', function (e) {
-    if (e.target.closest(targets)) {
+    if (e.target.closest('a, button')) {
       playClick();
     }
   });
@@ -158,8 +144,7 @@ function initClickSound() {
 /* ======================== DELAYED NAV CLICK ======================== */
 
 function initDelayedNavClick() {
-  var selector = '.back-nav a';
-  var links = document.querySelectorAll(selector);
+  var links = document.querySelectorAll('.back-nav a');
   links.forEach(function (link) {
     link.addEventListener('click', handleDelayedClick);
   });
