@@ -1,0 +1,82 @@
+/* ======================== HERO LOAD ======================== */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-intro {
+  opacity: 0;
+  animation: heroFadeUp 0.7s var(--ease-out) 0.15s forwards;
+}
+
+.hero h1 {
+  opacity: 0;
+  animation: heroFadeUp 0.7s var(--ease-out) 0.3s forwards;
+}
+
+.hero-meta {
+  opacity: 0;
+  animation: heroFadeUp 0.7s var(--ease-out) 0.45s forwards;
+}
+
+/* ======================== SCROLL REVEAL ======================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ======================== CARD INTERACTIONS ======================== */
+.project-card .project-thumb .thumb-visual {
+  transition: transform 0.6s var(--ease-out);
+}
+
+.project-card:hover .project-thumb .thumb-visual {
+  transform: scale(1.03);
+}
+
+.project-card .project-type {
+  transition: letter-spacing 0.4s var(--ease-out);
+}
+
+.project-card:hover .project-type {
+  letter-spacing: 0.16em;
+}
+
+/* ======================== SECTION LABEL LINE ======================== */
+.section-label::after {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.8s var(--ease-out);
+}
+
+.section-label.revealed::after {
+  transform: scaleX(1);
+}
+
+/* ======================== EXPERIENCE ITEMS ======================== */
+.exp-item.reveal {
+  transform: translateY(16px);
+}
+
+/* ======================== CONTACT BOX ======================== */
+.contact-inner {
+  transition: box-shadow 0.4s var(--ease-out);
+}
+
+.contact-inner:hover {
+  box-shadow: 0 4px 24px rgba(26, 29, 35, 0.05);
+}

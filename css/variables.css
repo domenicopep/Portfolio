@@ -1,0 +1,12 @@
+:root {
+  --ink: #1a1d23;
+  --paper: #f4f2ed;
+  --muted: #8b8b8b;
+  --rule: #d4d1ca;
+  --accent: #2b5ea7;
+  --accent-light: #d6e3f5;
+  --mono: "DM Mono", monospace;
+  --serif: "Source Serif 4", Georgia, serif;
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+}

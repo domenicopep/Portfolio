@@ -1,0 +1,56 @@
+@media (max-width: 768px) {
+  .header-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  nav { gap: 20px; }
+
+  .hero { padding: 48px 0 36px; }
+
+  .hero-meta {
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-thumb {
+    aspect-ratio: 16/9;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .exp-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .contact-inner { padding: 28px; }
+
+  footer {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 20px; }
+
+  .hero h1 { font-size: 24px; }
+
+  .project-info { padding: 24px; }
+
+  .project-title { font-size: 19px; }
+
+  .contact-links {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
