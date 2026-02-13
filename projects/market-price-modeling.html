@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Price Modeling — Dominic Servello</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/project.css">
+<link rel="stylesheet" href="../css/animations.css">
+</head>
+<body>
+
+<div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+<div class="project-page">
+
+  <div class="back-nav">
+    <a href="../index.html">Dominic Servello</a>
+    <span class="sep">/</span>
+    <span class="current">Market Price Modeling</span>
+  </div>
+
+  <section class="project-hero">
+    <div class="project-type">[fig. 3] Statistical Modeling</div>
+    <h1>Market Price Signal Modeling Using Multivariate Regression</h1>
+    <p class="lead">A multivariate regression model analyzing 10,000+ Uber ride records to model dynamic pricing behavior, capturing regime shifts and short-term supply/demand imbalances through engineered interaction features.</p>
+
+    <div class="meta-grid">
+      <dl class="meta-item">
+        <dt>Year</dt>
+        <dd>Fall 2025</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Role</dt>
+        <dd>Sole Analyst</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Type</dt>
+        <dd>Coursework</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Stack</dt>
+        <dd>R</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+  <div class="article-content">
+
+    <div class="article-section reveal">
+      <span class="section-tag">01 — Problem</span>
+      <h2>Dynamic pricing as a regression problem</h2>
+      <p>Ride-hailing surge pricing is driven by local supply/demand imbalances that shift rapidly. A static linear model misses these dynamics entirely. The question was whether multivariate regression with carefully engineered interaction terms could capture the nonlinear pricing behavior that emerges during regime shifts — peak hours, weather events, venue surges.</p>
+      <p>The dataset consisted of 10,000+ Uber ride records with temporal, geographic, and demand-side features.</p>
+    </div>
+
+    <div class="figure reveal">
+      <div class="figure-visual grid-bg">
+        <div class="placeholder">Price distribution by regime</div>
+      </div>
+      <div class="figure-caption">
+        <span class="fig-label">[fig. 3.1]</span>
+        <span class="fig-desc">Surge pricing distribution across demand regimes</span>
+      </div>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">02 — Model Development</span>
+      <h2>Feature engineering and interaction terms</h2>
+      <p>The base model used 3 predictors and achieved a reasonable but insufficient fit. The insight was that pricing regimes interact — time of day modulates the effect of demand density differently during weekdays versus weekends, and distance interacts with surge multiplier nonlinearly.</p>
+      <p>Linear interaction and cross-term features were engineered to capture these local regime shifts. Multiple partial F-tests were performed to determine which interaction slopes contributed significant explanatory power, systematically testing nested models against expanded alternatives.</p>
+
+      <ul class="tech-list">
+        <li>3 primary predictors with engineered interactions</li>
+        <li>Multiple partial F-test for interaction significance</li>
+        <li>Cross-term features for regime shift capture</li>
+        <li>Nested model comparison at each stage</li>
+      </ul>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">03 — Validation</span>
+      <h2>Cross-validation and diagnostics</h2>
+      <p>Model robustness was validated through k-fold cross-validation to guard against overfitting — especially important given the interaction terms which add model complexity. Residual diagnostics confirmed homoscedasticity and normality assumptions held within acceptable bounds.</p>
+      <p>The engineered features improved predictive accuracy from 65% to 87%, with the R&sup2; reaching 0.78 — a substantial improvement for a dataset with inherent pricing stochasticity.</p>
+    </div>
+
+    <div class="figure reveal">
+      <div class="figure-visual grid-bg">
+        <div class="placeholder">Residual diagnostics plot</div>
+      </div>
+      <div class="figure-caption">
+        <span class="fig-label">[fig. 3.2]</span>
+        <span class="fig-desc">Residual diagnostics — QQ plot and fitted vs. residuals</span>
+      </div>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">04 — Results</span>
+      <h2>Key outcomes</h2>
+
+      <div class="outcome-grid">
+        <div class="outcome-item">
+          <div class="outcome-value">0.78</div>
+          <div class="outcome-label">R-squared</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-value">65% &rarr; 87%</div>
+          <div class="outcome-label">Predictive accuracy</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-value">10K+</div>
+          <div class="outcome-label">Ride records analyzed</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+  <nav class="project-nav reveal">
+    <a href="alpha-signal-engine.html">
+      <span class="nav-direction">&larr; Previous</span>
+      <span class="nav-title">Alpha Signal Engine</span>
+    </a>
+    <a href="6dof-tracking.html" class="next">
+      <span class="nav-direction">Next &rarr;</span>
+      <span class="nav-title">6DOF Optical Tracking</span>
+    </a>
+  </nav>
+
+  <footer class="project-footer">
+    <span>&copy; 2026 Dominic Servello</span>
+    <span class="coordinates">40.4406&deg; N, 79.9959&deg; W</span>
+  </footer>
+
+</div>
+
+<div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

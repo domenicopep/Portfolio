@@ -106,4 +106,67 @@ document.addEventListener('DOMContentLoaded', function () {
   initNavTracking();
   initTextureParallax();
   initSmoothScroll();
+  initClickSound();
+  initDelayedNavClick();
 });
+
+/* ======================== CLICK SOUND ======================== */
+
+var audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
+function playClick() {
+  var ctx = getAudioContext();
+  var buffer = ctx.createBuffer(1, ctx.sampleRate * 0.02, ctx.sampleRate);
+  var data = buffer.getChannelData(0);
+  fillClickBuffer(data);
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  var gain = ctx.createGain();
+  gain.gain.value = 0.08;
+  source.connect(gain);
+  gain.connect(ctx.destination);
+  source.start();
+}
+
+function fillClickBuffer(data) {
+  for (var i = 0; i < data.length; i++) {
+    var t = i / data.length;
+    var envelope = Math.exp(-t * 40);
+    data[i] = (Math.random() * 2 - 1) * envelope;
+  }
+}
+
+function initClickSound() {
+  var targets = 'a, button, .project-card, nav a, .contact-link';
+  document.addEventListener('click', function (e) {
+    if (e.target.closest(targets)) {
+      playClick();
+    }
+  });
+}
+
+/* ======================== DELAYED NAV CLICK ======================== */
+
+function initDelayedNavClick() {
+  var selector = '.back-nav a';
+  var links = document.querySelectorAll(selector);
+  links.forEach(function (link) {
+    link.addEventListener('click', handleDelayedClick);
+  });
+}
+
+function handleDelayedClick(e) {
+  e.preventDefault();
+  var href = this.getAttribute('href');
+  playClick();
+  setTimeout(function () {
+    window.location.href = href;
+  }, 80);
+}

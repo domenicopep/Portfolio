@@ -1,0 +1,316 @@
+/* ======================== PROJECT PAGE LAYOUT ======================== */
+.project-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ======================== BACK NAV ======================== */
+.back-nav {
+  padding: 48px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.back-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-out);
+}
+
+.back-nav a:hover {
+  color: var(--ink);
+}
+
+.back-nav .sep {
+  margin: 0 10px;
+  color: var(--rule);
+}
+
+.back-nav .current {
+  color: var(--ink);
+}
+
+/* ======================== PROJECT HERO ======================== */
+.project-hero {
+  padding: 56px 0 48px;
+}
+
+.project-hero .project-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.project-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 300;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+.project-hero .lead {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 600px;
+}
+
+/* ======================== METADATA GRID ======================== */
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 36px 0 0;
+}
+
+.meta-item dt {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.meta-item dd {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ======================== ARTICLE CONTENT ======================== */
+.article-content {
+  padding: 48px 0;
+}
+
+.article-section {
+  margin-bottom: 48px;
+}
+
+.article-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.article-section h2 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 16px;
+}
+
+.article-section p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.article-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ======================== FIGURES ======================== */
+.figure {
+  margin: 36px 0;
+  border: 1px solid var(--rule);
+  position: relative;
+}
+
+.figure-visual {
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+}
+
+.figure-visual .grid-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+}
+
+.figure-visual .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.figure-caption {
+  padding: 12px 16px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.figure-caption .fig-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.figure-caption .fig-desc {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ======================== OUTCOME GRID ======================== */
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 32px 0;
+}
+
+.outcome-item {
+  background: var(--paper);
+  padding: 24px;
+}
+
+.outcome-value {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.outcome-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* ======================== INLINE LIST ======================== */
+.tech-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 2.2;
+  color: var(--ink);
+}
+
+.tech-list li::before {
+  content: '—';
+  color: var(--rule);
+  margin-right: 12px;
+}
+
+/* ======================== PROJECT NAV ======================== */
+.project-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 56px;
+}
+
+.project-nav a {
+  background: var(--paper);
+  padding: 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.project-nav a:hover {
+  background: var(--accent-light);
+}
+
+.project-nav .nav-direction {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.project-nav .nav-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.project-nav .next {
+  text-align: right;
+}
+
+/* ======================== PROJECT FOOTER ======================== */
+.project-footer {
+  padding: 24px 0 48px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ======================== RESPONSIVE ======================== */
+@media (max-width: 768px) {
+  .meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .outcome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .project-nav .next {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-page { padding: 0 20px; }
+  .project-hero h1 { font-size: 24px; }
+  .meta-grid { grid-template-columns: 1fr; }
+}

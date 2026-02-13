@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6DOF Optical Tracking — Dominic Servello</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/project.css">
+<link rel="stylesheet" href="../css/animations.css">
+</head>
+<body>
+
+<div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+<div class="project-page">
+
+  <div class="back-nav">
+    <a href="../index.html">Dominic Servello</a>
+    <span class="sep">/</span>
+    <span class="current">6DOF Optical Tracking</span>
+  </div>
+
+  <section class="project-hero">
+    <div class="project-type">[fig. 4] Systems + Protocol Engineering</div>
+    <h1>6DOF Optical Tracking Interface</h1>
+    <p class="lead">An application interfacing with NDI optical and electromagnetic tracking systems for real-time six-degrees-of-freedom position and orientation data acquisition, handling binary protocol parsing and quaternion coordinate transformations.</p>
+
+    <div class="meta-grid">
+      <dl class="meta-item">
+        <dt>Year</dt>
+        <dd>2024</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Role</dt>
+        <dd>Developer</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Organization</dt>
+        <dd>Surreality Lab, Pitt</dd>
+      </dl>
+      <dl class="meta-item">
+        <dt>Stack</dt>
+        <dd>Python, C#</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+  <div class="article-content">
+
+    <div class="article-section reveal">
+      <span class="section-tag">01 — Context</span>
+      <h2>Why tracking matters</h2>
+      <p>Surgical navigation, robotic guidance, and augmented reality all depend on the same fundamental capability: knowing exactly where an object is in 3D space, in real time. NDI tracking systems are the clinical gold standard for this, but interfacing with them requires handling low-level binary protocols, coordinate system transforms, and high-frequency data streams.</p>
+      <p>This project built a clean, performant interface layer between NDI hardware and downstream applications — abstracting the protocol complexity while maintaining the precision and throughput the hardware provides.</p>
+    </div>
+
+    <div class="figure reveal">
+      <div class="figure-visual grid-bg">
+        <div class="placeholder">Tracking coordinate system diagram</div>
+      </div>
+      <div class="figure-caption">
+        <span class="fig-label">[fig. 4.1]</span>
+        <span class="fig-desc">6DOF tracking — position (x,y,z) + orientation (qw,qx,qy,qz)</span>
+      </div>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">02 — Protocol Layer</span>
+      <h2>Binary protocol parsing</h2>
+      <p>NDI trackers communicate through a proprietary binary protocol with two frame formats: BX (legacy) and BX2 (extended). Each frame contains packed header bytes, tool handle identifiers, transformation matrices encoded as quaternion + translation pairs, and CRC checksums.</p>
+      <p>The parser handles frame synchronization, endianness conversion, CRC validation, and graceful recovery from corrupted or dropped frames — critical for maintaining tracking continuity during surgical procedures.</p>
+
+      <ul class="tech-list">
+        <li>BX and BX2 binary frame parsing</li>
+        <li>CRC-16 checksum validation</li>
+        <li>Automatic frame synchronization</li>
+        <li>Graceful corruption recovery</li>
+        <li>Multi-tool concurrent tracking</li>
+      </ul>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">03 — Coordinate Transforms</span>
+      <h2>Quaternion mathematics</h2>
+      <p>The tracker reports orientation as unit quaternions — a compact, singularity-free rotation representation. The interface provides utilities for quaternion-to-matrix conversion, quaternion interpolation (SLERP) for smoothing, and coordinate system transformations between tracker space, patient space, and display space.</p>
+      <p>These transforms are the foundation that allows downstream applications — AR overlays, robotic controllers, visualization tools — to operate in their own native coordinate systems while maintaining spatial coherence with the physical world.</p>
+    </div>
+
+    <div class="figure reveal">
+      <div class="figure-visual grid-bg">
+        <div class="placeholder">Quaternion transform pipeline</div>
+      </div>
+      <div class="figure-caption">
+        <span class="fig-label">[fig. 4.2]</span>
+        <span class="fig-desc">Coordinate transform chain: tracker → patient → display</span>
+      </div>
+    </div>
+
+    <div class="article-section reveal">
+      <span class="section-tag">04 — Streaming Architecture</span>
+      <h2>High-frequency data modes</h2>
+      <p>For applications requiring continuous position updates — real-time AR, robotic control loops, motion analysis — the interface supports streaming data modes that push frames at the tracker's native rate. The architecture uses an asynchronous event-driven model to decouple frame acquisition from processing, preventing dropped frames during computationally expensive downstream operations.</p>
+
+      <div class="outcome-grid">
+        <div class="outcome-item">
+          <div class="outcome-value">6DOF</div>
+          <div class="outcome-label">Degrees of freedom</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-value">BX/BX2</div>
+          <div class="outcome-label">Protocol support</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-value">Async</div>
+          <div class="outcome-label">Streaming architecture</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+  <nav class="project-nav reveal">
+    <a href="market-price-modeling.html">
+      <span class="nav-direction">&larr; Previous</span>
+      <span class="nav-title">Market Price Modeling</span>
+    </a>
+    <a href="ar-surgical-navigation.html" class="next">
+      <span class="nav-direction">Next &rarr;</span>
+      <span class="nav-title">AR Surgical Navigation</span>
+    </a>
+  </nav>
+
+  <footer class="project-footer">
+    <span>&copy; 2026 Dominic Servello</span>
+    <span class="coordinates">40.4406&deg; N, 79.9959&deg; W</span>
+  </footer>
+
+</div>
+
+<div class="texture-bar" aria-hidden="true">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

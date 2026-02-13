@@ -70,3 +70,20 @@ body {
   border-radius: 2px;
   letter-spacing: 0.05em;
 }
+
+
+/* Prevent horizontal scroll from wide texture bars */
+html { overflow-x: hidden; }
+
+/* Make texture bars wider than viewport to absorb parallax shift */
+.texture-bar {
+  width: calc(100vw + 200px);
+  margin-left: -100px;
+}
+
+/* Break texture bars out of container/project-page */
+.container .texture-bar,
+.project-page .texture-bar {
+  width: calc(100vw + 200px);
+  margin-left: calc(-50vw + 50% - 100px);
+}
