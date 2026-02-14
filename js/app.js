@@ -117,18 +117,28 @@ document.addEventListener('DOMContentLoaded', function () {
 var audioCtx = null;
 var clickBuffer = null;
 
-function warmUpAudio() {
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  var base = getBasePath();
-  fetch(base + "assets/click.wav")
-    .then(function (r) { return r.arrayBuffer(); })
-    .then(function (buf) { return audioCtx.decodeAudioData(buf); })
-    .then(function (decoded) { clickBuffer = decoded; });
+function getBasePath() {
+  var inSub = window.location.pathname.indexOf('/projects/') !== -1;
+  return inSub ? '../' : '';
 }
 
-function getBasePath() {
-  var inSub = window.location.pathname.indexOf("/projects/") !== -1;
-  return inSub ? "../" : "";
+function loadClickBuffer(ctx) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', getBasePath() + 'assets/click2.wav', true);
+  xhr.responseType = 'arraybuffer';
+  xhr.onload = function () {
+    if (xhr.status === 200 || xhr.status === 0) {
+      ctx.decodeAudioData(xhr.response, function (buf) {
+        clickBuffer = buf;
+      });
+    }
+  };
+  xhr.send();
+}
+
+function warmUpAudio() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  loadClickBuffer(audioCtx);
 }
 
 function playClick() {
@@ -143,9 +153,9 @@ function playClick() {
 }
 
 function initClickSound() {
-  document.addEventListener("pointerdown", warmUpAudio, { once: true });
-  document.addEventListener("click", function (e) {
-    if (e.target.closest("a, button")) playClick();
+  document.addEventListener('pointerdown', warmUpAudio, { once: true });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a, button')) playClick();
   });
 }
 
