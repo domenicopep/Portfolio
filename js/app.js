@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initTextureParallax();
   initSmoothScroll();
   initClickSound();
-  initDelayedNavClick();
 });
 
 
@@ -119,40 +118,35 @@ function getBasePath() {
   return inSub ? '../' : '';
 }
 
-function createClickSound() {
-  return new Howl({
+function initClickSound() {
+  if (typeof Howl === 'undefined') return;
+  var click = new Howl({
     src: [getBasePath() + 'assets/click2.wav'],
     volume: 0.3,
     preload: true
   });
-}
-
-function initClickSound() {
-  if (typeof Howl === 'undefined') return;
-  var click = createClickSound();
   document.addEventListener('click', function (e) {
-    if (e.target.closest('a, button')) click.play();
+    handleClick(e, click);
   });
 }
 
-/* ======================== DELAYED NAV CLICK ======================== */
-
-function initDelayedNavClick() {
-  if (typeof Howl === 'undefined') return;
-  var click = createClickSound();
-  var links = document.querySelectorAll('.back-nav a');
-  links.forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      handleDelayedClick(e, this, click);
-    });
-  });
-}
-
-function handleDelayedClick(e, link, click) {
-  e.preventDefault();
+function isNavigatingLink(link) {
+  if (!link || link.tagName !== 'A') return false;
   var href = link.getAttribute('href');
-  click.play();
-  setTimeout(function () {
-    window.location.href = href;
-  }, 80);
+  if (!href || href.startsWith('#') || href.startsWith('mailto:')) return false;
+  return true;
+}
+
+function handleClick(e, click) {
+  var el = e.target.closest('a, button');
+  if (!el) return;
+  var link = el.closest('a');
+  if (isNavigatingLink(link)) {
+    e.preventDefault();
+    click.play();
+    var href = link.getAttribute('href');
+    setTimeout(function () { window.location.href = href; }, 100);
+  } else {
+    click.play();
+  }
 }
