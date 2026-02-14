@@ -114,64 +114,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* ======================== CLICK SOUND ======================== */
 
-var audioCtx = null;
-var clickBuffer = null;
-
 function getBasePath() {
   var inSub = window.location.pathname.indexOf('/projects/') !== -1;
   return inSub ? '../' : '';
 }
 
-function loadClickBuffer(ctx) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', getBasePath() + 'assets/click2.wav', true);
-  xhr.responseType = 'arraybuffer';
-  xhr.onload = function () {
-    if (xhr.status === 200 || xhr.status === 0) {
-      ctx.decodeAudioData(xhr.response, function (buf) {
-        clickBuffer = buf;
-      });
-    }
-  };
-  xhr.send();
-}
-
-function warmUpAudio() {
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  loadClickBuffer(audioCtx);
-}
-
-function playClick() {
-  if (!audioCtx || !clickBuffer) return;
-  var source = audioCtx.createBufferSource();
-  source.buffer = clickBuffer;
-  var gain = audioCtx.createGain();
-  gain.gain.value = 0.15;
-  source.connect(gain);
-  gain.connect(audioCtx.destination);
-  source.start();
+function createClickSound() {
+  return new Howl({
+    src: [getBasePath() + 'assets/click2.wav'],
+    volume: 0.3,
+    preload: true
+  });
 }
 
 function initClickSound() {
-  document.addEventListener('pointerdown', warmUpAudio, { once: true });
+  if (typeof Howl === 'undefined') return;
+  var click = createClickSound();
   document.addEventListener('click', function (e) {
-    if (e.target.closest('a, button')) playClick();
+    if (e.target.closest('a, button')) click.play();
   });
 }
 
 /* ======================== DELAYED NAV CLICK ======================== */
 
 function initDelayedNavClick() {
+  if (typeof Howl === 'undefined') return;
+  var click = createClickSound();
   var links = document.querySelectorAll('.back-nav a');
   links.forEach(function (link) {
-    link.addEventListener('click', handleDelayedClick);
+    link.addEventListener('click', function (e) {
+      handleDelayedClick(e, this, click);
+    });
   });
 }
 
-function handleDelayedClick(e) {
+function handleDelayedClick(e, link, click) {
   e.preventDefault();
-  var href = this.getAttribute('href');
-  playClick();
+  var href = link.getAttribute('href');
+  click.play();
   setTimeout(function () {
     window.location.href = href;
   }, 80);
