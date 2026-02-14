@@ -98,19 +98,6 @@ function handleNavClick(e) {
   target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* ======================== INIT ======================== */
-
-document.addEventListener('DOMContentLoaded', function () {
-  initStaggerGroups();
-  initScrollReveal();
-  initNavTracking();
-  initTextureParallax();
-  initSmoothScroll();
-  initClickSound();
-});
-
-
-
 /* ======================== CLICK SOUND ======================== */
 
 function getBasePath() {
@@ -150,3 +137,14 @@ function handleClick(e, click) {
     click.play();
   }
 }
+
+/* ======================== INIT ======================== */
+
+document.addEventListener('DOMContentLoaded', function () {
+  initStaggerGroups();
+  initScrollReveal();
+  initNavTracking();
+  initTextureParallax();
+  initSmoothScroll();
+  initClickSound();
+});
